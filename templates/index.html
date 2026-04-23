@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Scam Detector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="container">
+    <h1>🚨 Crypto Scam Detector</h1>
+    <p class="subtitle">Paste a crypto project description and get a risk score.</p>
+
+    <form method="POST">
+      <textarea
+        name="project_text"
+        placeholder="Paste token/project description here..."
+      >{{ text }}</textarea>
+
+      <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+      <section class="result">
+        <h2>Result</h2>
+        <p><strong>Verdict:</strong> {{ result.verdict }}</p>
+        <p><strong>Risk Score:</strong> {{ result.score }}</p>
+
+        <h3>Detected flags</h3>
+        {% if result.matches %}
+          <ul>
+            {% for item in result.matches %}
+              <li>{{ item.label }} (+{{ item.points }})</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No obvious red flags detected.</p>
+        {% endif %}
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>
